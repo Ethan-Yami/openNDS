@@ -29,7 +29,7 @@
 #ifndef _CONF_H_
 #define _CONF_H_
 
-#define VERSION "9.0.1beta"
+#define VERSION "9.0.0"
 
 /*
  * Defines how many times should we try detecting the interface with the default route (in seconds).
@@ -57,11 +57,13 @@
 #define DEFAULT_GATEWAYPORT 2050
 #define DEFAULT_GATEWAYFQDN "status.client"
 #define DEFAULT_FASPORT 0
+#define DEFAULT_APIPORT 0
 #define DEFAULT_LOGIN_OPTION_ENABLED 0
 #define DEFAULT_USE_OUTDATED_MHD 0
 #define DEFAULT_UNESCAPE_CALLBACK_ENABLED 0
 #define DEFAULT_FAS_SECURE_ENABLED 1
 #define DEFAULT_FASPATH "/"
+#define DEFAULT_APIPATH "/"
 #define DEFAULT_FASKEY "1234567890"
 #define DEFAULT_CHECKINTERVAL 60
 #define DEFAULT_SESSION_TIMEOUT 1200
@@ -197,6 +199,11 @@ typedef struct {
 	char *fas_url;					//@brief URL of a remote FAS
 	char *fas_ssl;					//@brief SSL provider for FAS
 	char *fas_hid;					//@brief Hash provider for FAS
+	char *api_path;					//@brief Path to forward fething authentication data of API
+ 	char *api_remoteip;				//@brief IP addess of a remote API
+	char *api_remotefqdn;			//@brief FQDN of a remote API
+	char *api_url;					//@brief URL of a remote FAS
+	char *api_ssl;					//@brief SSL provider for FAS
 	char *themespec_path;				//@brief Path to the ThemeSpec file to use for login_option_enabled = 3
 	char *tmpfsmountpoint;				//@brief Mountpoint of the tmpfs drive eg /tmp etc.
 	char *webroot;					//@brief Directory containing splash pages, etc.
