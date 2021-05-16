@@ -5,9 +5,9 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=opennds
+PKG_NAME:=Cloud Hotspot
 PKG_FIXUP:=autoreconf
-PKG_VERSION:=9.0.1beta
+PKG_VERSION:=dev
 PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/dev.tar.gz #https://codeload.github.com/opennds/opennds/tar.gz/v$(PKG_VERSION)?
@@ -15,7 +15,7 @@ PKG_SOURCE:=opennds-$(PKG_VERSION).tar.gz
 PKG_HASH:= #shasum -a 256 of tar.gz of source files goes here
 PKG_BUILD_DIR:=$(BUILD_DIR)/openNDS-$(PKG_VERSION)
 
-PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
+PKG_MAINTAINER:=Ethan Yang <ethan@cloudshotspot.com>
 PKG_BUILD_PARALLEL:=1
 PKG_LICENSE:=GPL-2.0+
 
@@ -26,7 +26,7 @@ define Package/opennds
 	SECTION:=net
 	CATEGORY:=Network
 	DEPENDS:=+libpthread +iptables-mod-ipopt +libmicrohttpd-no-ssl
-	TITLE:=Open public network gateway daemon
+	TITLE:=Cloud Hotspot
 	URL:=https://github.com/opennds/opennds
 	CONFLICTS:=nodogsplash nodogsplash2
 endef
