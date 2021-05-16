@@ -673,7 +673,7 @@ setup_from_config(void)
 		}
 
 		debug(LOG_NOTICE, "Auth URL is %s\n", config->auth_url);
-		free(auth_url);
+		free(authurl);
 
 		// Check if authmon is running and if it is, kill it
 		safe_asprintf(&fasssl, "kill $(pgrep -f \"usr/lib/opennds/authmon.sh\") > /dev/null 2>&1");
