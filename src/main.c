@@ -638,8 +638,14 @@ setup_from_config(void)
 
 		// Setup the FAS URL
 		if (config->fas_remotefqdn) {
-			safe_asprintf(&fasurl, "%s://%s:%u%s",
+			if(config->fas_port==80 || config->fas_port==80){
+				safe_asprintf(&fasurl, "%s://%s%s",
+				protocol, config->fas_remotefqdn, config->fas_path);
+			}else{
+				safe_asprintf(&fasurl, "%s://%s:%u%s",
 				protocol, config->fas_remotefqdn, config->fas_port, config->fas_path);
+			}
+
 			config->fas_url = safe_strdup(fasurl);
 		} else {
 			safe_asprintf(&fasurl, "%s://%s:%u%s",
