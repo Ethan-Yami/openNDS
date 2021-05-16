@@ -650,9 +650,19 @@ setup_from_config(void)
 		free(fasurl);
 
 		// Setup the API URL | ensure that the api option has been configured
+		debug(LOG_NOTICE, "API fqdn is %s\n", config->api_remotefqdn);
+		debug(LOG_NOTICE, "API ip is %s\n", config->api_remoteip);
+		debug(LOG_NOTICE, "API path is %s\n", config->api_path);
+		debug(LOG_NOTICE, "API port is %s\n", config->api_port);
 		if (config->api_remotefqdn) {
-			safe_asprintf(&apiurl, "%s://%s:%u%s",
+			if(config->api_port=="80" || config->api_port=="443"){
+				safe_asprintf(&apiurl, "%s://%s%s",
+				protocol, config->api_remotefqdn,config->api_path);	
+			}else{
+				safe_asprintf(&apiurl, "%s://%s:%u%s",
 				protocol, config->api_remotefqdn, config->api_port,config->api_path);
+			}
+			
 			config->api_url = safe_strdup(apiurl);		 
 			free(apiurl);
 		} else if(config->api_remoteip) {
