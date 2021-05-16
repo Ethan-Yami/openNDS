@@ -265,7 +265,7 @@ config_init(void)
 	config.custom_files = NULL;
 	config.tmpfsmountpoint = NULL;
 	config.fas_path = DEFAULT_FASPATH;
-	config.api_path = DEFAULT_APIPATH;
+	config.api_path = NULL;// DEFAULT_APIPATH;
 	config.webroot = safe_strdup(DEFAULT_WEBROOT);
 	config.authdir = safe_strdup(DEFAULT_AUTHDIR);
 	config.denydir = safe_strdup(DEFAULT_DENYDIR);

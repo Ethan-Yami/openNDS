@@ -652,7 +652,7 @@ setup_from_config(void)
 		// Setup the API URL | ensure that the api option has been configured
 		
 		if (config->api_remotefqdn) {
-			if(config->api_port=="80" || config->api_port=="443"){
+			if(config->api_port==80 || config->api_port==443){
 				safe_asprintf(&apiurl, "%s://%s%s",
 				protocol, config->api_remotefqdn,config->api_path);	
 			}else{
