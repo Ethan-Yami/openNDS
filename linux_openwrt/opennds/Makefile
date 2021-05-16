@@ -26,13 +26,13 @@ define Package/opennds
 	SECTION:=net
 	CATEGORY:=Network
 	DEPENDS:=+libpthread +iptables-mod-ipopt +libmicrohttpd-no-ssl
-	TITLE:=Cloud Hotspot
+	TITLE:=A Cloud base Hotspot for wireless captive portal solution
 	URL:=https://github.com/opennds/opennds
 	CONFLICTS:=nodogsplash nodogsplash2
 endef
 
 define Package/opennds/description
-	openNDS is a Captive Portal solution that offers an instant way to provide restricted access to the Internet.
+	Cloud Hotspot is a cloud base platform for wireless captive Portal solution that offers an instant way to provide restricted access to the Internet.
 	With little or no configuration, a dynamically generated and adaptive splash page sequence is automatically served.
 	Internet access is granted by either a click to continue button, or after credential verification.
 	The package incorporates the FAS API allowing many flexible customisation options.
