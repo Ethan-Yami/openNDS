@@ -188,6 +188,7 @@ typedef struct {
 	char *gw_fqdn;					//@brief FQDN of the client status page
 	unsigned int gw_port;				//@brief Port the webserver will run on
 	unsigned int fas_port;				//@brief Port the fas server will run on
+	unsigned int api_port;				//@brief Port the fas server will run on
 	int login_option_enabled;			//@brief Use default PreAuth Login script
 	int use_outdated_mhd;				//@brief Use outdated libmicrohttpd
 	int unescape_callback_enabled;			//@brief Enable external MHD unescape callback script
@@ -203,6 +204,7 @@ typedef struct {
  	char *api_remoteip;				//@brief IP addess of a remote API
 	char *api_remotefqdn;			//@brief FQDN of a remote API
 	char *api_url;					//@brief URL of a remote FAS
+	char *auth_url;					//@brief URL of a remote FAS
 	char *api_ssl;					//@brief SSL provider for FAS
 	char *themespec_path;				//@brief Path to the ThemeSpec file to use for login_option_enabled = 3
 	char *tmpfsmountpoint;				//@brief Mountpoint of the tmpfs drive eg /tmp etc.

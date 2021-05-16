@@ -77,6 +77,7 @@ typedef enum {
 	oGatewayPort,
 	oGatewayFQDN,
 	oFasPort,
+	oApiPort,
 	oFasKey,
 	oFasPath,
 	oApiPath,
