@@ -29,7 +29,7 @@
 #ifndef _CONF_H_
 #define _CONF_H_
 
-#define VERSION "9.0.0"
+#define VERSION "0.0.1"
 
 /*
  * Defines how many times should we try detecting the interface with the default route (in seconds).
@@ -62,8 +62,8 @@
 #define DEFAULT_USE_OUTDATED_MHD 0
 #define DEFAULT_UNESCAPE_CALLBACK_ENABLED 0
 #define DEFAULT_FAS_SECURE_ENABLED 1
-#define DEFAULT_FASPATH "/"
-#define DEFAULT_APIPATH "/"
+#define DEFAULT_FASPATH "/portal/login/"
+#define DEFAULT_APIPATH "/users/verify/"
 #define DEFAULT_FASKEY "1234567890"
 #define DEFAULT_CHECKINTERVAL 60
 #define DEFAULT_SESSION_TIMEOUT 1200

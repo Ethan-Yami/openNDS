@@ -20,11 +20,8 @@ config opennds
 	option downloadquota '0'
 	option binauth '/usr/lib/opennds/binauth_log.sh'
 	option fasport 443
-	option apiport 443
 	option fasremotefqdn 'shanghai.cloudshotspot.com'
-	option apiremotefqdn 'api-cn.cloudshotspot.com'
 	option fasremoteip '106.13.21.9'
-	option apiremoteip '106.13.21.9'
 	option faspath '/portal/login/'  #'/wifidog/test'	
 	option faskey '1234567890'
 	option fas_secure_enabled '3'
