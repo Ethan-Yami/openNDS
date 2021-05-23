@@ -5,13 +5,13 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=Cloud Hotspot
+PKG_NAME:=opennds
 PKG_FIXUP:=autoreconf
 PKG_VERSION:=dev
 PKG_RELEASE:=1
 
-PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/dev.tar.gz #https://codeload.github.com/opennds/opennds/tar.gz/v$(PKG_VERSION)?
-PKG_SOURCE:=cloud_hotspot-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/$(PKG_VERSION).tar.gz #https://codeload.github.com/opennds/opennds/tar.gz/v$(PKG_VERSION)?
+PKG_SOURCE:=$(PKG_VERSION).tar.gz
 PKG_HASH:= #shasum -a 256 of tar.gz of source files goes here
 PKG_BUILD_DIR:=$(BUILD_DIR)/cloud_hotspot-$(PKG_VERSION)
 
