@@ -12,7 +12,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/$(PKG_VERSION).tar.gz
 PKG_SOURCE:=$(PKG_VERSION).tar.gz
-PKG_HASH:= #shasum -a 256 of tar.gz of source files goes here
+PKG_HASH:=741256c664f02c42b5c38e43cf9b22e90b342e6589b7a8560860a86ccea19705#shasum -a 256 of tar.gz of source files goes here
 PKG_BUILD_DIR:=$(BUILD_DIR)/openNDS-$(PKG_VERSION)
 
 PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
