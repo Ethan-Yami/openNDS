@@ -10,12 +10,12 @@ PKG_FIXUP:=autoreconf
 PKG_VERSION:=dev
 PKG_RELEASE:=1
 
-PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/$(PKG_VERSION).tar.gz #https://codeload.github.com/opennds/opennds/tar.gz/v$(PKG_VERSION)?
+PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/$(PKG_VERSION).tar.gz
 PKG_SOURCE:=$(PKG_VERSION).tar.gz
 PKG_HASH:= #shasum -a 256 of tar.gz of source files goes here
-PKG_BUILD_DIR:=$(BUILD_DIR)/cloud_hotspot-$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/openNDS-$(PKG_VERSION)
 
-PKG_MAINTAINER:=Ethan Yang <ethan@cloudshotspot.com>
+PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
 PKG_BUILD_PARALLEL:=1
 PKG_LICENSE:=GPL-2.0+
 
@@ -26,13 +26,13 @@ define Package/opennds
 	SECTION:=net
 	CATEGORY:=Network
 	DEPENDS:=+libpthread +iptables-mod-ipopt +libmicrohttpd-no-ssl
-	TITLE:=A Cloud base Hotspot for wireless captive portal solution
+	TITLE:=Open public network gateway daemon
 	URL:=https://github.com/opennds/opennds
 	CONFLICTS:=nodogsplash nodogsplash2
 endef
 
 define Package/opennds/description
-	Cloud Hotspot is a cloud base platform for wireless captive Portal solution that offers an instant way to provide restricted access to the Internet.
+	openNDS is a Captive Portal solution that offers an instant way to provide restricted access to the Internet.
 	With little or no configuration, a dynamically generated and adaptive splash page sequence is automatically served.
 	Internet access is granted by either a click to continue button, or after credential verification.
 	The package incorporates the FAS API allowing many flexible customisation options.
