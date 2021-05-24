@@ -1,76 +1,87 @@
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
 
-CC?=gcc
-CFLAGS?=-O2 -g -Wall
-CFLAGS+=-Isrc
-#CFLAGS+=-Wall -Wwrite-strings -pedantic -std=gnu99
-LDFLAGS+=-pthread
-LDLIBS=-lmicrohttpd
+include $(TOPDIR)/rules.mk
 
-STRIP=yes
+PKG_NAME:=opennds
+PKG_FIXUP:=autoreconf
+PKG_VERSION:=9.0.1beta
+PKG_RELEASE:=1
 
-NDS_OBJS=src/auth.o src/client_list.o src/commandline.o src/conf.o \
-	src/debug.o src/fw_iptables.o src/main.o src/http_microhttpd.o src/http_microhttpd_utils.o \
-	src/ndsctl_thread.o src/safe.o src/util.o
+PKG_SOURCE_URL:=https://codeload.github.com/opennds/opennds/tar.gz/v$(PKG_VERSION)?
+PKG_SOURCE:=opennds-$(PKG_VERSION).tar.gz
+PKG_HASH:= #shasum -a 256 of tar.gz of source files goes here
+PKG_BUILD_DIR:=$(BUILD_DIR)/openNDS-$(PKG_VERSION)
 
-.PHONY: all clean install
+PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
+PKG_BUILD_PARALLEL:=1
+PKG_LICENSE:=GPL-2.0+
 
-all: opennds ndsctl
+include $(INCLUDE_DIR)/package.mk
 
-%.o : %.c
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+define Package/opennds
+	SUBMENU:=Captive Portals
+	SECTION:=net
+	CATEGORY:=Network
+	DEPENDS:=+libpthread +iptables-mod-ipopt +libmicrohttpd-no-ssl
+	TITLE:=Open public network gateway daemon
+	URL:=https://github.com/opennds/opennds
+	CONFLICTS:=nodogsplash nodogsplash2
+endef
 
-opennds: $(NDS_OBJS) $(LIBHTTPD_OBJS)
-	$(CC) $(LDFLAGS) -o opennds $+ $(LDLIBS)
+define Package/opennds/description
+	openNDS is a Captive Portal solution that offers an instant way to provide restricted access to the Internet.
+	With little or no configuration, a dynamically generated and adaptive splash page sequence is automatically served.
+	Internet access is granted by either a click to continue button, or after credential verification.
+	The package incorporates the FAS API allowing many flexible customisation options.
+	The creation of sophisticated third party authentication applications is fully supported.
+	Internet hosted https portals can be utilised to inspire maximum user confidence.
+endef
 
-ndsctl: src/ndsctl.o
-	$(CC) $(LDFLAGS) -o ndsctl $+ $(LDLIBS)
+define Package/opennds/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/opennds $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ndsctl $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/etc/opennds/htdocs/images
+	$(INSTALL_DIR) $(1)/etc/config
+	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_DIR) $(1)/usr/lib/opennds
+	$(CP) $(PKG_BUILD_DIR)/resources/splash.css $(1)/etc/opennds/htdocs/
+	$(CP) $(PKG_BUILD_DIR)/resources/splash.jpg $(1)/etc/opennds/htdocs/images/
+	$(CP) $(PKG_BUILD_DIR)/linux_openwrt/opennds/files/etc/config/opennds $(1)/etc/config/
+	$(CP) $(PKG_BUILD_DIR)/linux_openwrt/opennds/files/etc/config/opennds $(1)/etc/opennds/config.uci
+	$(CP) $(PKG_BUILD_DIR)/linux_openwrt/opennds/files/etc/init.d/opennds $(1)/etc/init.d/
+	$(CP) $(PKG_BUILD_DIR)/linux_openwrt/opennds/files/etc/uci-defaults/40_opennds $(1)/etc/uci-defaults/
+	$(CP) $(PKG_BUILD_DIR)/linux_openwrt/opennds/files/usr/lib/opennds/restart.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/binauth/binauth_log.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/libopennds.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/PreAuth/theme_click-to-continue-basic.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/PreAuth/theme_click-to-continue-custom-placeholders.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/PreAuth/theme_user-email-login-basic.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/PreAuth/theme_user-email-login-custom-placeholders.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/get_client_interface.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/get_client_token.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/client_params.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/unescape.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/authmon.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/dnsconfig.sh $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/libs/post-request.php $(1)/usr/lib/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/fas-aes/fas-aes.php $(1)/etc/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/fas-hid/fas-hid.php $(1)/etc/opennds/
+	$(CP) $(PKG_BUILD_DIR)/forward_authentication_service/fas-aes/fas-aes-https.php $(1)/etc/opennds/
+endef
 
-clean:
-	rm -f opennds ndsctl src/*.o
-	rm -rf dist
+define Package/opennds/postrm
+#!/bin/sh
+uci delete firewall.opennds
+uci commit firewall
+endef
 
-install:
-#ifeq(yes,$(STRIP))
-	strip opennds
-	strip ndsctl
-#endif
-	mkdir -p $(DESTDIR)/usr/bin/
-	cp ndsctl $(DESTDIR)/usr/bin/
-	cp opennds $(DESTDIR)/usr/bin/
-	mkdir -p $(DESTDIR)/etc/opennds/htdocs/images
-	cp resources/opennds.conf $(DESTDIR)/etc/opennds/
-	cp linux_openwrt/opennds/files/etc/config/opennds $(DESTDIR)/etc/opennds/opennds.uci
-	cp resources/splash.css $(DESTDIR)/etc/opennds/htdocs/
-	cp resources/splash.jpg $(DESTDIR)/etc/opennds/htdocs/images/
-	cp resources/opennds.service $(DESTDIR)/etc/systemd/system/
-	mkdir -p $(DESTDIR)/usr/lib/opennds
-	cp forward_authentication_service/binauth/binauth_log.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/binauth_log.sh
-	cp forward_authentication_service/libs/libopennds.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i '0,/#!\/bin\/sh/{s/#!\/bin\/sh/#!\/bin\/bash/}' $(DESTDIR)/usr/lib/opennds/libopennds.sh
-	cp forward_authentication_service/PreAuth/theme_click-to-continue-basic.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/theme_click-to-continue-basic.sh
-	cp forward_authentication_service/PreAuth/theme_click-to-continue-custom-placeholders.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/theme_click-to-continue-custom-placeholders.sh
-	cp forward_authentication_service/PreAuth/theme_user-email-login-basic.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/theme_user-email-login-basic.sh
-	cp forward_authentication_service/PreAuth/theme_user-email-login-custom-placeholders.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/theme_user-email-login-custom-placeholders.sh
-	cp forward_authentication_service/libs/get_client_interface.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/get_client_interface.sh
-	cp forward_authentication_service/libs/get_client_token.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/get_client_token.sh
-	cp forward_authentication_service/libs/client_params.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/client_params.sh
-	cp forward_authentication_service/libs/unescape.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/unescape.sh
-	cp forward_authentication_service/libs/authmon.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/authmon.sh
-	cp forward_authentication_service/libs/dnsconfig.sh $(DESTDIR)/usr/lib/opennds/
-	sed -i 's/#!\/bin\/sh/#!\/bin\/bash/' $(DESTDIR)/usr/lib/opennds/dnsconfig.sh
-	cp forward_authentication_service/libs/post-request.php $(DESTDIR)/usr/lib/opennds/
-	cp forward_authentication_service/fas-aes/fas-aes.php $(DESTDIR)/etc/opennds/
-	cp forward_authentication_service/fas-hid/fas-hid.php $(DESTDIR)/etc/opennds/
-	cp forward_authentication_service/fas-aes/fas-aes-https.php $(DESTDIR)/etc/opennds/
+define Package/opennds/conffiles
+/etc/config/opennds
+endef
 
-
+$(eval $(call BuildPackage,opennds))
