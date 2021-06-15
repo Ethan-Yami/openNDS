@@ -10,14 +10,10 @@ PKG_FIXUP:=autoreconf
 PKG_VERSION:=dev
 PKG_RELEASE:=1
 
-PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/ #https://github.com/Ethan-Yami/openNDS/archive/#$(PKG_VERSION).tar.gz
-#PKG_SOURCE_URL:=https://shanghai.cloudshotspot.com/#$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://github.com/Ethan-Yami/openNDS/archive/
 PKG_SOURCE:=$(PKG_VERSION).tar.gz
-#PKG_SOURCE:=openNDS-$(PKG_VERSION).tar.gz
-PKG_HASH:=f571a9234224ab8166cc1b585a43d750be84ea7afc326c6f68474760f954dfbc#shasum -a 256 of tar.gz of source files goes here github
-#PKG_HASH:=0be624518f629cc07405e256f3cfd351601484a306f8801208bcec3948bb05ee#shasum -a 256 of tar.gz of source files goes here
+PKG_HASH:=a221548b93b1ecdb9c6fdcbddeaa52bd6fd1b6580df51550a9144dea6006f830#shasum -a 256 of tar.gz of source files goes here github
 PKG_BUILD_DIR:=$(BUILD_DIR)/openNDS-$(PKG_VERSION)
-
 PKG_MAINTAINER:=Rob White <rob@blue-wave.net>
 PKG_BUILD_PARALLEL:=1
 PKG_LICENSE:=GPL-2.0+
